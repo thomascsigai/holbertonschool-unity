@@ -36,12 +36,13 @@ public class PlayerController : MonoBehaviour
     {
         ApplyMovement();
         ApplyVerticalMovement();
+        CheckForPlayerDeath();
     }
 
     private void ApplyMovement()
     {
         Vector2 xzMoveDir = playerInputs.PlayerActionMap.Move.ReadValue<Vector2>();
-        moveDirection = new Vector3(xzMoveDir.x, moveDirection.y, xzMoveDir.y);
+        moveDirection = transform.forward * xzMoveDir.y + transform.right * xzMoveDir.x + transform.up * moveDirection.y;
         controller.Move(moveDirection * Time.deltaTime * moveSpeed);
     }
 
@@ -62,6 +63,14 @@ public class PlayerController : MonoBehaviour
         else
         {
             moveDirection.y += Physics.gravity.y * Time.deltaTime;
+        }
+    }
+
+    private void CheckForPlayerDeath()
+    {
+        if (transform.position.y < -10)
+        {
+            transform.position = new Vector3(0, 50, 0);
         }
     }
 }

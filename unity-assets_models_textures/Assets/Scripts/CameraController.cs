@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float cameraDistance = 2.0f;
 
     private PlayerInputs playerInputs;
+    private Vector2 cameraInput;
 
     private void Awake()
     {
@@ -27,18 +28,25 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        MoveCameraAroundPlayer();
+        cameraInput = playerInputs.PlayerActionMap.RotateCamera.ReadValue<Vector2>();
+
+        MoveCameraAroundPlayer(cameraInput);
+        PlayerLookRotation(cameraInput);
     }
 
-    private void MoveCameraAroundPlayer()
+    private void MoveCameraAroundPlayer(Vector2 camMove)
     {
-        Vector2 camMove = playerInputs.PlayerActionMap.RotateCamera.ReadValue<Vector2>();
-
         camMove *= Time.deltaTime * 100 * rotationSpeed;
 
         transform.rotation = Quaternion.Euler(Mathf.Clamp(transform.rotation.eulerAngles.x - camMove.y, 0, 80), transform.rotation.eulerAngles.y + camMove.x, 0);
         transform.position = player.position - transform.forward * cameraDistance;
 
         transform.LookAt(player);
+    }
+
+    private void PlayerLookRotation(Vector2 camMove)
+    {
+        camMove *= Time.deltaTime * 100 * rotationSpeed;
+        player.Rotate(Vector3.up * camMove.x);
     }
 }
