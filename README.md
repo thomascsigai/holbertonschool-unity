@@ -45,5 +45,3 @@ The "Holberton School - Unity" project is a curated collection of educational pr
 
 ## 📬 Contact
 - LinkedIn Profile: [Thomas Csigai](https://www.linkedin.com/in/thomas-csigai-9a36a61b6/)
-
-Please note that the image link should be validated for proper rights usage before being utilized in a project repository.
